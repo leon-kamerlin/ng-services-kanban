@@ -68,7 +68,10 @@
               "projects/services-kanban-example/src/assets"
             ],
             "styles": [
-              "projects/services-kanban-example/src/styles.scss"
+              "projects/services-kanban-example/src/styles/styles.scss",
+              "projects/services-kanban-example/src/styles/highlightjs/material-light.css",
+              "projects/services-kanban-example/src/styles/bootstrap/bootstrap.scss",
+              "projects/services-kanban-example/src/styles/primer/primer.scss"
             ],
             "scripts": []
           },
