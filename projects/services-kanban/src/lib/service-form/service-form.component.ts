@@ -1,0 +1,131 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import * as uuid from 'uuid';
+import { DataDispatcher, DispatcherActionTypes, SelectorView } from 'leon-angular-utils';
+import { Service } from '../service';
+
+
+@Component({
+    selector: 'lib-service-form',
+    templateUrl: './service-form.component.html',
+    styleUrls: ['./service-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ServiceFormComponent implements OnInit {
+    minutes: number[] = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180];
+    genders: SelectorView[] = [
+        {
+            value: 'male',
+            viewValue: 'Male'
+        },
+        {
+            value: 'female',
+            viewValue: 'Female'
+        },
+        {
+            value: 'both',
+            viewValue: 'Both'
+        },
+    ];
+
+    paymentOptions: SelectorView[] = [
+        {
+            value: 'pay-at-venue',
+            viewValue: 'Pay at Venue'
+        },
+        {
+            value: 'pay-with-credit-card',
+            viewValue: 'Pay with credit card'
+        },
+        {
+            value: 'both',
+            viewValue: 'Both'
+        }
+    ];
+    form: FormGroup;
+    @Input()
+    service: Service;
+    @Input()
+    index = -1;
+    @Output()
+    submitted: EventEmitter<DataDispatcher<Service>> = new EventEmitter<DataDispatcher<Service>>();
+    colors = ['purple', 'blue', 'green', 'yellow', 'red', 'gray'];
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.createForm();
+    }
+
+    ngOnInit() {
+
+    }
+
+    private createForm(data?: Service): FormGroup {
+        return this.fb.group({
+            name: this.fb.control(data?.name, [Validators.required]),
+            description: this.fb.control(data?.description, [Validators.required]),
+            estimatedTime: this.fb.control(data?.estimatedTime, [Validators.required]),
+            price: this.fb.control(data?.price, [Validators.required]),
+            gender: this.fb.control(data?.gender, [Validators.required]),
+            paymentOption: this.fb.control(data?.paymentOption, [Validators.required]),
+            color: this.fb.control(data?.color, [Validators.required])
+        });
+    }
+
+    get names(): FormControl {
+        return this.form.get('name') as FormControl;
+    }
+
+    get description(): FormControl {
+        return this.form.get('description') as FormControl;
+    }
+
+    get estimatedTime(): FormControl {
+        return this.form.get('estimatedTime') as FormControl;
+    }
+
+    get prices(): FormControl {
+        return this.form.get('price') as FormControl;
+    }
+
+    get gender(): FormControl {
+        return this.form.get('gender') as FormControl;
+    }
+
+    get instantBooking(): FormControl {
+        return this.form.get('instantBooking') as FormControl;
+    }
+
+    get paymentOption(): FormControl {
+        return this.form.get('paymentOption') as FormControl;
+    }
+
+    get color(): FormControl {
+        return this.form.get('color') as FormControl;
+    }
+
+    onSubmit(service: Service) {
+        let dispatcher: DataDispatcher<Service>;
+        if (this.index === -1) {
+            dispatcher = {
+                data: { ...service, id: uuid() },
+                action: DispatcherActionTypes.CREATE
+            };
+        } else {
+            dispatcher = {
+                data: service,
+                action: DispatcherActionTypes.UPDATE
+            };
+        }
+
+        this.submitted.emit(dispatcher);
+    }
+
+    delete(service: Service) {
+        const dispatcher: DataDispatcher<Service> = {
+            data: service,
+            action: DispatcherActionTypes.DELETE
+        };
+
+        this.submitted.emit(dispatcher);
+    }
+}

@@ -1,0 +1,43 @@
+<mat-card class="outer-card">
+    <mat-card-header>
+        <!-- Slot for the handle -->
+        <ng-content></ng-content>
+        <mat-card-title>
+            {{ serviceCategory.title }}
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{ serviceCategory.id }}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <div class="tasks">
+        <div
+            class="collection"
+            cdkDropList
+            [id]="serviceCategory.id"
+            [cdkDropListData]="serviceCategory"
+            (cdkDropListDropped)="serviceDrop($event)">
+            <div
+                class="inner-card"
+                cdkDrag
+                *ngFor="let service of serviceCategory.services; let i = index"
+                (click)="openServiceDialog(serviceCategory, service, i)">
+                <mat-card [style]="{backgroundColor: service.color?.primary}">{{ service.name }}</mat-card>
+            </div>
+            <div class="empty"></div>
+        </div>
+
+        <div>
+            <button mat-stroked-button (click)="openServiceDialog(serviceCategory)">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button class="mx-2" mat-stroked-button (click)="updateServiceCategory(serviceCategory)">
+                <mat-icon>update</mat-icon>
+            </button>
+
+            <lib-delete-button (delete)="deleteServiceCategory(serviceCategory)"></lib-delete-button>
+        </div>
+
+    </div>
+</mat-card>

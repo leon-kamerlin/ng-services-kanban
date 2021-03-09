@@ -11,6 +11,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "leon-angular-utils": "^0.0.7",
+    "ng-components-leon": "0.0.5",
     "@angular/material": "~11.2.2",
     "@angular/platform-browser": "~11.2.3",
     "@angular/platform-browser-dynamic": "~11.2.3",
