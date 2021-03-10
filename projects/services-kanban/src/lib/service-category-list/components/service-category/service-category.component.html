@@ -3,10 +3,10 @@
         <!-- Slot for the handle -->
         <ng-content></ng-content>
         <mat-card-title>
-            {{ serviceCategory.title }}
+            {{ (category$ | async).title }}
         </mat-card-title>
         <mat-card-subtitle>
-            {{ serviceCategory.id }}
+            {{ (category$ | async).id }}
         </mat-card-subtitle>
     </mat-card-header>
 
@@ -14,29 +14,29 @@
         <div
             class="collection"
             cdkDropList
-            [id]="serviceCategory.id"
-            [cdkDropListData]="serviceCategory"
+            [id]="(category$ | async).id"
+            [cdkDropListData]="(category$ | async)"
             (cdkDropListDropped)="serviceDrop($event)">
             <div
                 class="inner-card"
                 cdkDrag
-                *ngFor="let service of serviceCategory.services; let i = index"
-                (click)="openServiceDialog(serviceCategory, service, i)">
+                *ngFor="let service of (category$ | async).services; let i = index"
+                (click)="clickOnService(service)">
                 <mat-card [style]="{backgroundColor: service.color?.primary}">{{ service.name }}</mat-card>
             </div>
             <div class="empty"></div>
         </div>
 
         <div>
-            <button mat-stroked-button (click)="openServiceDialog(serviceCategory)">
+            <button mat-stroked-button #addServiceButton>
                 <mat-icon>add</mat-icon>
             </button>
 
-            <button class="mx-2" mat-stroked-button (click)="updateServiceCategory(serviceCategory)">
+            <button class="mx-2" mat-stroked-button #updateCategoryButton>
                 <mat-icon>update</mat-icon>
             </button>
 
-            <lib-delete-button (delete)="deleteServiceCategory(serviceCategory)"></lib-delete-button>
+            <lib-delete-button></lib-delete-button>
         </div>
 
     </div>

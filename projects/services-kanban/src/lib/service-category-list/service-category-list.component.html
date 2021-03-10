@@ -2,14 +2,15 @@
     class="boards p-3 d-flex flex-wrap"
     cdkDropList
     cdkDropListOrientation="horizontal"
+    [cdkDropListData]="(categories$ | async)"
     (cdkDropListDropped)="categoryDrop($event)">
     <div
         class="d-flex"
         cdkDropListGroup>
         <lib-service-category
             cdkDrag
-            *ngFor="let serviceCategory of serviceCategories"
-            (serviceCategoryDispatcher)="serviceCategoryDispatcher.emit($event)"
+            *ngFor="let serviceCategory of (categories$ | async)"
+            (serviceCategoryDispatcher)="onServiceCategoryDispatcher($event)"
             [serviceCategory]="serviceCategory">
         </lib-service-category>
     </div>
@@ -17,11 +18,8 @@
         <button
             mat-raised-button
             color="accent"
-            cdkDragDisabled
             (click)="createNewCategory()">
             New Category
         </button>
-
-
     </div>
 </div>

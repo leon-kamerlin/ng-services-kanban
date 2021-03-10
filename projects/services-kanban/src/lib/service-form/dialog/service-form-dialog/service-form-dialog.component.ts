@@ -6,8 +6,7 @@ import { Service } from '../../../service';
 import { DataDispatcher, DispatcherActionTypes } from 'leon-angular-utils';
 
 export interface ServiceFormDialogData {
-    index?: number;
-    service: Service;
+    service?: Service;
 }
 
 @Component({
@@ -22,7 +21,7 @@ export class ServiceFormDialogComponent implements OnInit {
     constructor(private dialogRef: MatDialogRef<ServiceFormDialogComponent>, @Inject(MAT_DIALOG_DATA) public data?: ServiceFormDialogData) {
     }
 
-    public static openDialog(dialog: MatDialog, data?: ServiceFormDialogData):
+    public static openDialog(dialog: MatDialog, data: ServiceFormDialogData):
         Observable<DataDispatcher<Service>> {
 
         const dialogRef = dialog.open(ServiceFormDialogComponent, {

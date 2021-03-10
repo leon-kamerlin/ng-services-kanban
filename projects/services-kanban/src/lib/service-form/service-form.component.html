@@ -51,10 +51,10 @@
         <button
             mat-button
             (click)="onSubmit(form.value)"
-            [disabled]="form.invalid">{{ (index === -1) ? 'Create' : 'Update'}}</button>
+            [disabled]="form.invalid">{{ (service === undefined) ? 'Create' : 'Update'}}</button>
 
         <lib-delete-button
-            *ngIf="index === -1"
+            *ngIf="service !== undefined"
             (delete)="delete(service)">
         </lib-delete-button>
     </div>
